@@ -40,15 +40,10 @@ test('Inputing Values test', async ({ page }) => {
     await expect(sea).toHaveValue('Laptop');
 
     // checking button works
-    
+
    const but=await page.getByRole('button', { name: 'Search' });
    await but.click();
    await expect(sea).toHaveValue('Laptop');
     
       
-
-
-
-
-
 });
