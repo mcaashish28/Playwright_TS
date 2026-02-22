@@ -76,3 +76,13 @@ const link3=await page.getByTestId('nav-contact');
 await link3.click();
 await expect(page).toHaveURL(url);
 });
+
+
+test('clicking button and check the text isn present or not', async ({ page }) => {
+await page.goto(url);
+const btn=await page.getByTestId('footer-button');
+await expect(btn).toBeVisible();
+await btn.click();
+const text=await page.getByText ('This page demonstrates various Playwright locators for testing purposes.',{exact:true});
+await expect(text).toBeVisible();
+});
