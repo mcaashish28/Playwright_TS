@@ -328,4 +328,38 @@ test('Visitors Test', async ({page}) => {
 
 });
 
+// Copy Text Test--------------------------------------------------------------
 
+test('text Test', async ({page}) => {
+    await page.goto(url);
+    const check1=await page.locator('#field1').inputValue();
+    console.log(check1);
+
+    const check2=await page.locator('#field2').inputValue();
+    console.log(check2);
+
+        const btn=page.getByText('Copy Text',{exact:true});
+        await btn.click();
+        await btn.click();
+    
+
+
+    await page.waitForTimeout(300);
+
+    const check3=await page.locator('#field2').inputValue();
+    console.log(check3);
+
+
+
+      const check5=await page.locator('#field1').fill('Akarshit');
+    console.log(check5);
+        await btn.click();
+        await btn.click();
+         console.log(check3);
+    
+
+
+    await page.waitForTimeout(300);
+
+
+});
