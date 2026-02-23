@@ -41,6 +41,7 @@ test('Drag and Drop Test', async ({page}) => {
     await page.waitForTimeout(4000);
 });
 
+
 // Mouse Hover Test----------------------------------------------------------------
 
 test('Mouse Hover Test', async ({page}) => {
@@ -55,6 +56,7 @@ test('Mouse Hover Test', async ({page}) => {
     await page.getByRole('link', { name: 'Laptops' }).click();
     await expect(page).toHaveURL(url);
 });
+
 
 // Broken Links Test-----------------------------------------------------------------
 // 400 error code test
@@ -167,5 +169,97 @@ test('Broken Links Test 503', async ({page}) => {
     page.close();
 });
 
+// Alerts Test & Popup Test------------------------------------------------------------
 
+test(' Simple Alert Test', async ({page}) => {
+    await page.goto(url);   
+    page.on('dialog', async (popup) => {
+        console.log(popup.message());
+        await popup.accept();
+    });
+    await page.getByText('Simple Alert').click();
+   
+});
+
+// Conformation Alert Test
+test(' Confirmation Alert Test', async ({page}) => {
+    await page.goto(url);   
+    
+    page.on('dialog', async (popup) => {
+        console.log(popup.message());
+        await popup.accept();
+    });
+    await page.getByText('Confirmation Alert').click();
+    const result= await page.textContent('#demo');
+    console.log(result);
+});
+
+// Non confirmation alerttest
+ 
+test(' Non Confirmation Alert Test', async ({page}) => {
+    await page.goto(url);
+    page.on('dialog', async (popup) => {
+        console.log(popup.message());
+        await popup.dismiss();
+    });
+    await page.getByText('Confirmation Alert').click();
+    const result= await page.textContent('#demo');
+    console.log(result);
+});
+
+// prompt Alert Test
+
+test(' Prompt Alert Test', async ({page}) => {
+    await page.goto(url);
+    page.on('dialog', async (popup) => {
+        console.log(popup.message());
+        await popup.accept('Playwright');
+    });
+    await page.getByText('Prompt Alert').click();
+    const result= await page.textContent('#demo');
+    console.log(result);
+});
+
+// negative prompt Alert Test
+
+test(' Negative Prompt Alert Test', async ({page}) => {
+    await page.goto(url);
+    page.on('dialog', async (popup) => {
+        console.log(popup.message());
+        await popup.dismiss();
+    });
+    await page.getByText('Prompt Alert').click();
+    const result= await page.textContent('#demo');
+    console.log(result);
+});
+
+// Window popup Test
+
+test(' Window popup Test', async ({page}) => {
+    await page.goto(url);
+    await page.getByText('New Tab').click();
+    const [newPage] = await Promise.all([
+        page.context().waitForEvent('page'),
+        
+    ]);
+    await newPage.waitForLoadState();
+    console.log(newPage.url());
+    await expect(newPage).toHaveURL('https://www.pavantestingtools.com/');
+    const result= await newPage.locator('h1.title').textContent();
+    console.log(result);
+    newPage.close();
+});
+
+// popup windows
+test('popup windows', async ({page}) => {
+    await page.goto(url);
+    const [newPage] = await Promise.all([
+        page.context().waitForEvent('page'),
+        page.getByText('Popup Windows').click()
+    ]);
+    await newPage.waitForLoadState();
+    console.log(newPage.url());
+    await expect(newPage).toHaveURL('https://playwright.dev/');
+    newPage.close();
+});
 
