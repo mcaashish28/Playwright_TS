@@ -298,3 +298,46 @@ test('popup windows', async ({page}) => {
     newPage.close();
 });
 
+
+//  Labels & Links Test----------------------------------------------------------------
+
+test('Labels & Links Test', async ({page}) => {
+    await page.goto(url);
+    page.getByText('Mobile Labels');
+    await page.getByText('Samsung');
+    await page.getByText('Motorola');
+    await page.getByText('Real me');    
+        
+});
+
+
+// Laptop Links Test---------------------------------------------------------------
+    // Apple link test
+test('AppleLinks Test', async ({page}) => {
+    await page.goto(url);
+    await page.getByText('Laptop Links');
+    const appleLink =  page.getByText('Apple', { exact: true });
+    await appleLink.click();
+    await expect(page).toHaveURL('https://www.apple.com/');
+    await page.goBack();
+});
+
+ // lenovo link test
+test('Lenovo Links Test', async ({page}) => {
+    await page.goto(url);
+    await page.getByText('Laptop Links');
+    const lenovoLink =  page.getByText('Lenovo', { exact: true });
+    await lenovoLink.click();
+    await expect(page).toHaveURL('https://www.lenovo.com/in/en/');
+    await page.goBack();
+});
+
+// Dell link test
+test('Dell Links Test', async ({page}) => {
+    await page.goto(url);
+    await page.getByText('Laptop Links');
+    const dellLink =  page.getByText('Dell', { exact: true });
+    await dellLink.click();
+    await expect(page).toHaveURL('https://www.dell.com/en-in');
+    await page.goBack();
+});
