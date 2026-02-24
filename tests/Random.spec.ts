@@ -396,3 +396,55 @@ test('Back to top test', async ({page}) => {
 
         
 });
+
+
+// Footer Links Test----------------------------------------------------------------
+
+test('Fotter Links test', async ({page}) => {
+    await page.goto(url);
+    const widg=page.locator('#PageList1');
+            
+     await widg .getByRole('link', { name: 'Home' }).click();
+     console.log(page.url());
+     await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
+
+     const head=await page.locator('#header-inner');
+     console.log(await head.locator('p').textContent());
+     page.close();
+        
+});
+
+
+test('Fotter 2 Links test', async ({page}) => {
+    await page.goto(url);
+    const widg=page.locator('#PageList1');
+            
+     await widg .getByRole('link', { name: 'Hidden Elements & AJAX' }).click();
+     console.log(page.url());
+     await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/p/gui-elements-ajax-hidden.html');
+
+     const head=await page.locator('#header-inner');
+     console.log(await head.locator('p').textContent());
+     page.close();
+        
+});
+
+
+test('Fotter 3 Links test', async ({page}) => {
+    await page.goto(url);
+    const widg=page.locator('#PageList1');
+            
+     await widg .getByRole('link', { name: 'Download Files' }).click();
+     console.log(page.url());
+     await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/p/download-files_25.html');
+
+     const head=await page.locator('#header-inner');
+     console.log(await head.locator('p').textContent());
+     page.close();
+        
+});
+
+
+
+
+
