@@ -455,24 +455,18 @@ test('merrymoonmary Links test', async ({page}) => {
     await page.goto(url);
     const widg=page.locator('#Attribution1');
             
-    //   await widg .getByRole('link', { name: 'merrymoonmary' }).click();
-    //   await page.context().newPage();
-    //   console.log(page.url());
-    //   await page.waitForLoadState('networkidle');
-    //   await page.bringToFront();
-    //   console.log(page.url());
-    //  await expect(page).toHaveURL('https://www.istockphoto.com/portfolio/merrymoonmary?platform=blogger');
-
-    //  const head=await page.locator('#header-inner');
-    //  console.log(await head.locator('p').textContent());
+   
      
      const [newPage] = await Promise.all([
-  page.context().waitForEvent('page'), // catches the new tab
-    await widg .getByRole('link', { name: 'merrymoonmary' }).click()     // the click that opens it
+  page.context().waitForEvent('page'), 
+    await widg .getByRole('link', { name: 'merrymoonmary' }).click()     
 ]);
 
-await newPage.waitForLoadState();       // wait for full load
-console.log('New page URL:', await newPage.url()); // now matches UI
+await newPage.waitForLoadState();      
+console.log('New page URL:', await newPage.url()); 
+
+await expect(page).toHaveURL('https://www.istockphoto.com/portfolio/merrymoonmary?platform=blogger');
+
 
         
 });
