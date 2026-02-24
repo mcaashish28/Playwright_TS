@@ -999,3 +999,104 @@ test('verify for unpresent', async ({ page }) => {
     await page.goto(url);
     await expect(page.getByTitle('Non-existent Title')).not.toBeVisible();
 });
+
+
+
+
+// blogger Link Test
+
+
+test('blogger link test', async ({ page }) => {
+
+await page.goto(url);
+    const widg=page.locator('#Attribution1');
+    const [newPage] = await Promise.all([
+     page.context().waitForEvent('page'), 
+     await widg .getByRole('link', { name: 'Blogger' }).click()     
+]);
+
+await newPage.waitForLoadState();      
+console.log('New page URL:',newPage.url()); 
+
+// We Are Not Using session here so we are using www 
+
+await expect(newPage).toHaveURL('https://www.blogger.com/about/?bpli=1');
+newPage.close();
+});
+
+//  blog link test
+
+
+test('blog link test', async ({ page }) => {
+    await page.goto(url);
+    const widg=page.locator('#shadow_host');
+    
+    await widg .getByText('Blog',{exact: true}).click()     
+
+await page.waitForLoadState();      
+console.log('New page URL:',page.url()); 
+await expect(page).toHaveURL('https://www.pavantestingtools.com/');
+
+});
+
+// Youtube Link Test  
+test('Youtube Link test ', async ({ page }) => {
+    await page.goto(url);
+    const widg=page.locator('#footer-2-2');
+    
+    await widg .getByText('Youtube',{exact: true}).click();   
+
+await page.waitForLoadState();      
+console.log('New page URL:',page.url()); 
+await expect(page).toHaveURL('https://www.youtube.com/@sdetpavan/videos');
+
+});
+
+// Comments atom test
+test('Comments atom Link test',async({ page }) =>{
+
+    await page.goto(url);
+    const widg=page.locator('.feed-link');
+     const [newPage] = await Promise.all([
+     page.context().waitForEvent('page'), 
+      await widg .getByText('Comments (Atom)',{exact: true}).click()  
+]);
+
+    await newPage.waitForLoadState();
+
+         
+    console.log('New page URL:',newPage.url()); 
+    await expect(newPage).toHaveURL('https://testautomationpractice.blogspot.com/feeds/posts/default');
+
+
+});
+
+// added Home Link tests
+
+test('Homelast Link test ', async ({ page }) => {
+    await page.goto(url);
+    const widg=page.locator('.home-link');
+    
+    await widg .getByText('Home',{exact: true}).click();   
+
+await page.waitForLoadState();      
+console.log('New page URL:',page.url()); 
+await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
+
+});
+
+// Automation Testing Practice link test
+
+test('Automation head Link test ', async ({ page }) => {
+    await page.goto(url);
+    const widg=page.locator('#header-inner');
+    
+    await widg .getByText('Automation Testing Practice',{exact: true}).click();   
+
+await page.waitForLoadState();      
+console.log('New page URL:',page.url()); 
+await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
+
+});
+
+
