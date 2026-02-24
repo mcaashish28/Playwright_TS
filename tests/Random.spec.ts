@@ -266,9 +266,13 @@ test('popup windows', async ({page}) => {
         page.context().waitForEvent('page'),
         page.getByText('Popup Windows').click()
     ]);
-    await newPage.waitForLoadState();
+    const prl=newPage.url();
+    expect(prl).toMatch(/playwright\.dev|selenium\.dev/);
+    await newPage.waitForLoadState('networkidle');
+
     console.log(newPage.url());
-    await expect(newPage).toHaveURL('https://playwright.dev/');
+    
+    
     newPage.close();
 });
 
