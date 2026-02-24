@@ -363,3 +363,36 @@ test('text Test', async ({page}) => {
 
 
 });
+
+// home link test
+
+test('Home Link Test2', async ({page}) => {
+    await page.goto(url);
+    await page.locator('a.home-link').click();
+      await page.context().newPage();
+    console.log(page.url());
+    await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
+
+    const result=await page.locator('h1').textContent();
+    console.log(result);
+    page.close();
+
+        
+});
+
+
+// Back to top Test
+
+
+test('Back to top test', async ({page}) => {
+    await page.goto(url);
+    await page.getByTitle('Back to top').click();
+    console.log(page.url());
+    await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/p/playwrightpractice.html#');
+
+    const para=page.getByText('This page demonstrates various Playwright locators for testing purposes.',{exact:true});
+    await expect(para).toBeVisible();
+    page.close();
+
+        
+});
