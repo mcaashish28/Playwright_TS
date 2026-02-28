@@ -2,6 +2,24 @@ import{test,expect,Page, Locator} from '@playwright/test';
 
 const url='https://testautomationpractice.blogspot.com/p/playwrightpractice.html#';
 
+async function ForSearch(Btn:Locator,searchVal:string) {
+ await Btn.pressSequentially(`{searchval}`,{delay:300});
+}
+
+async function inputvalues(btn1:Locator,v1:string,) {
+    await btn1.isVisible();
+    await btn1.fill(v1);
+
+}   
+
+async function erasevalues(btn1:Locator) {
+    await btn1.clear();    
+}
+
+async function checkmark(btn1:Locator) {
+    await btn1.check();
+}
+
 async function ID0RCLASS(page :Page,text:string,getBy:string):Promise<Locator> {
     if(getBy=='ID'){
         return page.locator(`#${text}`);
@@ -215,19 +233,19 @@ const btn2= await SingleTargetLoc(btn,'Online Trainings','Text');
 await Linkstest(page,btn2);
 });
 
-test('Inputing LabelGmail test', async ({ page }) => {
+test('Label Inputing Gmail test', async ({ page }) => {
 await page.goto(url);
 const adr=await SingleTargetLoc(page,'Email Address:','Label');
 await inputvalues(adr,'akarshitmahajan1094')
 });
 
-test('Inputing LabelPassword test', async ({ page }) => {
+test('Label Inputing Password test', async ({ page }) => {
 await page.goto(url);
 const pass=await SingleTargetLoc(page,' Password: ','Label');
 await  inputvalues(pass,'1234578');
 });
 
-test('Standard Shipping CheckMethod Test', async ({ page }) => {
+test('Label Standard Shipping CheckMethod Test', async ({ page }) => {
 await page.goto(url);
 const legend= await ID0RCLASS(page,'label-locators','ID');
 const standard=await SingleTargetLoc(legend,' Standard','Label')
@@ -235,7 +253,7 @@ await checkmark(standard);
 await expect(standard).toBeChecked();
 });
 
-test('Express Shipping CheckMethod Test', async ({ page }) => {
+test('Label Express Shipping CheckMethod Test', async ({ page }) => {
 await page.goto(url);
 const legend= await ID0RCLASS(page,'label-locators','ID');
 const express=await SingleTargetLoc(legend,' Express','Label')
@@ -243,22 +261,7 @@ await checkmark(express);
 await expect(express).toBeChecked();
 });
 
-async function inputvalues(btn1:Locator,v1:string,) {
-    await btn1.isVisible();
-    await btn1.fill(v1);
-
-}   
-
-async function erasevalues(btn1:Locator) {
-    await btn1.clear();    
-}
-
-async function checkmark(btn1:Locator) {
-    await btn1.check();
-}
-
-
-test('Age inputting Test', async ({ page }) => {
+test('Label Age inputting Test', async ({ page }) => {
 await page.goto(url);
 const age=await SingleTargetLoc(page,'Your Age:','Label');
 await inputvalues(age,'25');
@@ -267,23 +270,157 @@ await inputvalues(age,'40');
 expect(age).toHaveValue('40');
 });
 
-  test('fill email and click on shipping method and check the email value & clear & fill new value & check clicbox2 ', async ({ page }) => {
+test('PlaceHolders Inputing Name test', async ({ page }) => {
+await page.goto(url);
+const gname=await SingleTargetLoc(page,'Enter your full name','Place');
+await inputvalues(gname,'Akarshit')
+});
+
+test('PlaceHolders Inputing PhoneNumber test', async ({ page }) => {
+await page.goto(url);
+const pno=await SingleTargetLoc(page,'Phone number (xxx-xxx-xxxx)','Place');
+await inputvalues(pno,'123457783');
+});
+
+test('PlaceHolders Inputing Message test', async ({ page }) => {
+await page.goto(url);
+const pno=await SingleTargetLoc(page,'Type your message here...','Place');
+await inputvalues(pno,' I Am Good Coder,Agreed?');
+});
+
+test('PlaceHolders Search test', async ({ page }) => {
+await page.goto(url);
+const search=await SingleTargetLoc(page,'Search products...','Place');
+await ForSearch(search,'Laptop');
+});
+
+test('PlaceHolders Button test', async ({ page }) => {
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Search','Place');
+await btn.isVisible();
+});
+
+test('TestID Button test', async ({ page }) => {
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'edit-profile-btn','Testid');
+await btn.isVisible();
+});
+
+test('TestID Name test', async ({ page }) => {
+await page.goto(url);
+const gname=await SingleTargetLoc(page,'profile-name','Testid');
+await gname.isVisible();
+});
+
+test('TestID Gamil test', async ({ page }) => {
+await page.goto(url);
+const gname=await SingleTargetLoc(page,'profile-email','Testid');
+await gname.isVisible();
+});
+
+test('TestID ProductA test', async ({ page }) => {
+await page.goto(url);
+const name=await ID0RCLASS(page,'product-card-2','ID')
+const ppname=await SingleTargetLoc(name,'product-name','Testid')
+await ppname.isVisible();
+const pprice=await SingleTargetLoc(name,'product-price','Testid')
+await pprice.isVisible();
+});
+
+test('ALT ImageVisibility test', async ({ page }) => {
+await page.goto(url);
+const image = await SingleTargetLoc(page,'logo image','Alt');
+await image.isVisible();
+});
+
+test('ALT ImageSource test', async ({ page }) => {
+await page.goto(url);
+const image = await SingleTargetLoc(page,'logo image','Alt');
+const src=await image.getAttribute('src');
+console.log(src);
+});
+
+test('ALT ImageSize test', async ({ page }) => {
+await page.goto(url);
+const image = await SingleTargetLoc(page,'logo image','Alt');
+const box = await image.boundingBox();
+console.log(box?.width, box?.height);
+});
+
+test('ALT ImageNotBroken test', async ({ page }) => {
+await page.goto(url);
+const image = await SingleTargetLoc(page,'logo image','Alt');
+const src=await image.getAttribute('src');
+const response=await page.request.get(src!)
+expect(response.status()).toBe(200);
+});
+
+test('ALT ImageHover test', async ({ page }) => {
+await page.goto(url);
+const image = await SingleTargetLoc(page,'logo image','Alt');
+await image.hover();
+});
+
+
+// GetByRole _______________--------------_____________--------------_______________-----------
+
+
+test('Button test', async ({ page }) => {
+  await page.goto(url);
+
+
+const button = await page.getByRole('button', { name: 'Primary Action' });
+await button.click();
+
+const button2= await page.getByRole('button',{ name: 'Toggle Button' });
+await button2.click();
+const button3= await page.getByRole('button',{ name: 'Div with button role' });
+await button3.click();
+});
+
+
+
+test("Headings test", async ({ page }) => {
     await page.goto(url);
-    const adr= page.getByLabel('Email Address:');
-    adr.focus();
-    await adr.fill('Aperion123@gmail.com');
-    await expect(adr).toHaveValue('Aperion123@gmail.com');
-    const stshiping=page.getByLabel(' Standard');
-    await stshiping.check();
-    await expect(stshiping).toBeChecked();
-    await adr.clear();
-    await expect(adr).toHaveValue('');
-    await adr.fill('NewEmail@gmail.com');
-    await expect(adr).toHaveValue('NewEmail@gmail.com');
-    await expect(stshiping).toBeChecked();
-  });
+     await expect(page.getByRole('heading', { name: 'Buttons' })).toBeVisible();
+     await expect(page.getByRole('heading', { name: 'Form Elements' })).toBeVisible();
+     await expect(page.getByRole('heading', { name: 'Navigation' })).toBeVisible();
+});
 
 
+test("Links test", async ({ page }) => {
+    await page.goto(url);
+    
+    await page.getByRole('menuitem', { name: 'Home' }).click();
+    await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
+    await page.getByRole('menuitem', { name: 'Products' }).click();
+     await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
+    await page.getByRole('menuitem', { name: 'Contact' }).click();
+     await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
+
+}); 
+
+test("Username test & checkbox", async ({ page }) => {
+    await page.goto(url);
+    await page.locator('#username').fill('Akarshit');
+    await expect(page.locator('#username')).toHaveValue('Akarshit');
+    const pagecheck=await expect(page.getByRole('checkbox', { name: 'Accept Terms' })).toBeChecked;
+    // await expect(page.getByRole('checkbox', { name: 'Accept Terms' })).toBeChecked();
+   console.log(pagecheck);
+   await page.locator('#username').clear();
+});
+
+test("click button afect textfeild or not", async ({ page }) => {
+    await page.goto(url);
+    await page.locator('#username').fill('Akarshit');
+    const button =  page.getByRole('button', { name: 'Primary Action' });
+    await button.click();
+
+    const button2= await page.getByRole('button',{ name: 'Toggle Button' });
+    await button2.click();
+
+    await expect(page.locator('#username')).toHaveValue('Akarshit');
+});
 
 //  Drag and Drop Test----------------------------------------------------------------
 
@@ -503,399 +640,6 @@ test('Back to top test', async ({page}) => {
 
         
 });
-
-
-
-
-// Get By alt text------------------___________________----------------------------____________________-----------------------------
-
-
-
-test('checking image have same attribute',async({page})=>{
-    await page.goto(url);
-    const image = page.getByAltText('logo image');
-    await expect(image).toHaveAttribute('src','https://playwright.dev/img/playwright-logo.svg');
-    
-    
-});
-
-test('verify image is correct by another image src',async({page})=>{
-    await page.goto(url);
-    const image = page.getByAltText('logo image');
-    await expect(image).not.toHaveAttribute('src','https://miro.medium.com/v2/resize:fit:1080/1*8DDN_DRuSBlM74dVYUjR9Q.png');
-});
-
-test('clicking on image doesnt aloow to move to another page',async({page})=>{
-    await page.goto(url);
-    const image = page.getByAltText('logo image');
-    await image.click();
-    await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
-});
-
-test('clicking on image doesnt change any text',async({page})=>{
-    await page.goto(url);
-    const text2 =  page.getByText('Playwright Logo', { exact: true });
-    
-    const image = page.getByAltText('logo image');
-    await image.click();
-    
-    await expect(text2).toBeVisible();
-});
-
-test('checking image is full size',async({page})=>{
-    await page.goto(url);
-    const image = page.getByAltText('logo image');
-    const box = await image.boundingBox();
-    console.log(box?.width, box?.height);
-    // await expect(image).toHaveAttribute('width','212');
-    // await expect(image).toHaveAttribute('height','212');
-    await expect(box?.width).toBe(212);
-    await expect(box?.height).toBe(212);
-    
-});
-
-
-
-// Get By Label Text Test---------------_____________________----------------_____________---------------
-
-test('Shiiping method test', async ({ page }) => {
-    await page.goto(url);
-    const legend= page.getByText('Shipping Method');
-    await expect(legend).toBeVisible();
-    await expect(legend).toHaveText('Shipping Method');
-    
-
-    const stshiping=page.getByLabel(' Standard');
-    await stshiping.check();
-    await expect(stshiping).toBeChecked();
-
-
-    const exshiping=page.getByLabel(' Express');
-    await exshiping.check();
-    await expect(exshiping).toBeChecked();
-
-    // checking for that st shipping get unchecked
-    await expect(stshiping).not.toBeChecked();
-
-
-  });
-
-  test('enter email & password and then erase email and check the value', async ({ page }) => {
-    await page.goto(url);
-    const adr= page.getByLabel('Email Address:');
-    adr.focus();
-    await adr.fill('Aperion123@gmail.com');
-    await expect(adr).toHaveValue('Aperion123@gmail.com');
-    const pass= page.getByLabel(' Password: ');
-    pass.focus();
-    await pass.fill('123456789');
-    await expect(pass).toHaveValue('123456789');
-    await adr.clear();
-    await expect(adr).toHaveValue('');
-  });
-
-  test('enter age and then check the value and then enter value and check the value', async ({ page }) => {
-    await page.goto(url);
-    const ag= page.getByLabel('Age:');
-    ag.focus();
-    await ag.fill('19');
-    await expect(ag).toHaveValue('19');
-    await ag.clear();
-    await expect(ag).toHaveValue('');
-    await ag.fill('20');
-    await expect(ag).toHaveValue('20');
-
-  });
-
-  test('fill email and click on shipping method and check the email value & clear & fill new value & check clicbox ', async ({ page }) => {
-    await page.goto(url);
-    const adr= page.getByLabel('Email Address:');
-    adr.focus();
-    await adr.fill('Aperion123@gmail.com');
-    await expect(adr).toHaveValue('Aperion123@gmail.com');
-    const stshiping=page.getByLabel(' Standard');
-    await stshiping.check();
-    await expect(stshiping).toBeChecked();
-    await adr.clear();
-    await expect(adr).toHaveValue('');
-    await adr.fill('NewEmail@gmail.com');
-    await expect(adr).toHaveValue('NewEmail@gmail.com');
-    await expect(stshiping).toBeChecked();
-  });
-
-
-
-//   Get By PlaceHolders_______________----------------___________________________--------_______________---------------____-
-
-
-
-test('PlaceHoldets Values test', async ({ page }) => {
-
-    await page.goto(url);
-    const nm=await page.getByPlaceholder('Enter your full name');
-    nm.focus();
-    await nm.fill('Akarshit');
-    await expect(nm).toHaveValue('Akarshit');
-
-
-    const pn=await page.getByPlaceholder('Phone number (xxx-xxx-xxxx)');
-    pn.focus();
-    await pn.fill('123-456-7890');  
-    await expect(pn).toHaveValue('123-456-7890');
- 
-
-
-    const msg=await page.getByPlaceholder('Type your message here...');
-    msg.focus();
-    await msg.fill('This is a test message for placeholder test Great Coder');
-    await expect(msg).toHaveValue('This is a test message for placeholder test Great Coder');
-
-    // checking for upper filled values
-    await expect(nm).toHaveValue('Akarshit');
-    await expect(pn).toHaveValue('123-456-7890');
-
-
-    // clearing the values
-    await nm.clear();
-    await pn.clear();
-    await msg.clear();
-
-
-
-    const sea=await page.getByPlaceholder('Search products...');
-    sea.focus();
-    await sea.pressSequentially('Laptop',{delay:300});
-    await expect(sea).toHaveValue('Laptop');
-
-    // checking button works
-
-   const but=await page.getByRole('button', { name: 'Search' });
-   await but.click();
-   await expect(sea).toHaveValue('Laptop');
-    
-      
-});
-
-test('click empty search and then fill product name and check the value', async ({ page }) => {
-    await page.goto(url);
-    const sea= page.getByPlaceholder('Search products...');
-    const but= page.getByRole('button', { name: 'Search' });
-    await but.click();
-    await expect(sea).toHaveValue('');
-    await sea.focus();
-    await sea.fill('Laptop');
-    await expect(sea).toHaveValue('Laptop');
-    await but.click();
-    await expect(sea).toHaveValue('Laptop');
-
-});
-
-test('enter name & phone number and last name & then check name contain full name+lastname & phone number contain only phone number & then clear the name and check the value', async ({ page }) => {
-    await page.goto(url);
-    const nm= page.getByPlaceholder('Enter your full name');
-    nm.focus();
-    await nm.fill('Akarshit');
-    await expect(nm).toHaveValue('Akarshit');
-    const pn= page.getByPlaceholder('Phone number (xxx-xxx-xxxx)');
-    pn.focus();
-    await pn.fill('123-456-7890');
-    nm.focus();
-    await nm.fill('Akarshit Mahajan');
-    await expect(nm).toHaveValue('Akarshit Mahajan');
-    await expect(pn).toHaveValue('123-456-7890');
-    await nm.clear();
-    await expect(nm).toHaveValue('');
-    await expect(pn).toHaveValue('123-456-7890');
-    await pn.clear();
-    await expect(pn).toHaveValue('');
-});
-
-test('enter message and  clear the message and write new msg come to phone number fill it & name & go to msg continue it and check the values should be as +msg ', async ({ page }) => {
-    await page.goto(url);
-    const msg= page.getByPlaceholder('Type your message here...');
-    msg.focus();
-    await msg.fill('This is a test message for placeholder test Great Coder');
-    await expect(msg).toHaveValue('This is a test message for placeholder test Great Coder');
-    await msg.clear();
-    await msg.fill('This is a new message');
-    const pn= page.getByPlaceholder('Phone number (xxx-xxx-xxxx)');
-    pn.focus();
-    await pn.fill('123-456-7890');
-    const nm= page.getByPlaceholder('Enter your full name');
-    nm.focus();
-    await nm.fill('Akarshit Mahajan');
-    msg.focus();
-    await msg.fill('This is a new message for phone number 123-456-7890 and name Akarshit Mahajan');
-    await expect(msg).toHaveValue('This is a new message for phone number 123-456-7890 and name Akarshit Mahajan');
-});
-
-test('enter  name and search button click and then come back to name &check name write phone number then click button and then come to phone number and then check the value be wrriten ', async ({ page }) => {
-    await page.goto(url);
-    const nm= page.getByPlaceholder('Enter your full name');
-    nm.focus();
-    await nm.fill('Akarshit Mahajan');
-    const but= page.getByRole('button', { name: 'Search' });
-    await but.click();
-    await expect(nm).toHaveValue('Akarshit Mahajan');
-    const pn= page.getByPlaceholder('Phone number (xxx-xxx-xxxx)');
-    pn.focus();
-    await pn.fill('123-456-7890');
-    await but.click();
-    await expect(pn).toHaveValue('123-456-7890');
-    await expect(nm).toHaveValue('Akarshit Mahajan');
-});
-
-
-
-// GetByRole _______________--------------_____________--------------_______________-----------
-
-
-test('Button test', async ({ page }) => {
-  await page.goto(url);
-
-
-const button = await page.getByRole('button', { name: 'Primary Action' });
-await button.click();
-
-const button2= await page.getByRole('button',{ name: 'Toggle Button' });
-await button2.click();
-const button3= await page.getByRole('button',{ name: 'Div with button role' });
-await button3.click();
-});
-
-
-
-test("Headings test", async ({ page }) => {
-    await page.goto(url);
-     await expect(page.getByRole('heading', { name: 'Buttons' })).toBeVisible();
-     await expect(page.getByRole('heading', { name: 'Form Elements' })).toBeVisible();
-     await expect(page.getByRole('heading', { name: 'Navigation' })).toBeVisible();
-});
-
-
-test("Links test", async ({ page }) => {
-    await page.goto(url);
-    
-    await page.getByRole('menuitem', { name: 'Home' }).click();
-    await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
-    await page.getByRole('menuitem', { name: 'Products' }).click();
-     await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
-    await page.getByRole('menuitem', { name: 'Contact' }).click();
-     await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
-
-}); 
-
-test("Username test & checkbox", async ({ page }) => {
-    await page.goto(url);
-    await page.locator('#username').fill('Akarshit');
-    await expect(page.locator('#username')).toHaveValue('Akarshit');
-    const pagecheck=await expect(page.getByRole('checkbox', { name: 'Accept Terms' })).toBeChecked;
-    // await expect(page.getByRole('checkbox', { name: 'Accept Terms' })).toBeChecked();
-   console.log(pagecheck);
-   await page.locator('#username').clear();
-});
-
-test("click button afect textfeild or not", async ({ page }) => {
-    await page.goto(url);
-    await page.locator('#username').fill('Akarshit');
-    const button =  page.getByRole('button', { name: 'Primary Action' });
-    await button.click();
-
-    const button2= await page.getByRole('button',{ name: 'Toggle Button' });
-    await button2.click();
-
-    await expect(page.locator('#username')).toHaveValue('Akarshit');
-});
-
-
-// GetByTestId______________------------------______________________-----------------------_______
-
-
-test('getByTestId & check the existance of text by ids', async ({ page }) => {
-
-await page.goto(url);
-const profileCard = page.getByTestId('user-profile-card');
-
-await expect(profileCard.getByTestId('profile-name')).toHaveText('John Doe');
-await expect(profileCard.getByTestId('profile-email')).toHaveText('john.doe@example.com');
-
-const btn=await page.getByTestId('edit-profile-btn');
-await btn.click();
-await expect(btn).toBeVisible();
-
-// checking after clicking name and gamil are same or get different
-await expect(profileCard.getByTestId('profile-name')).toHaveText('John Doe');
-await expect(profileCard.getByTestId('profile-email')).toHaveText('john.doe@example.com');
-
-
-});
-
-test('Checking for products', async ({ page }) => {
-
-await page.goto(url);
-const cards = page.getByTestId('product-card-1');
-await expect(cards.getByTestId('product-name')).toHaveText('Product A');
-await expect(cards.getByTestId('product-price')).toHaveText('$19.99');  
-
-const card2=page.getByTestId('product-card-2');
-await expect(card2.getByTestId('product-name')).toHaveText('Product B');
-await expect(card2.getByTestId('product-price')).toHaveText('$29.99');
-
-const card3=page.getByTestId('product-card-3');
-await expect(card3.getByTestId('product-name')).toHaveText('Product C');
-await expect(card3.getByTestId('product-price')).toHaveText('$39.99');
-
-
-// await expect(cards).toHaveCount(3);
-
-// await cards.nth(1).getByTestId('edit-profile-btn').click();
-});
-
-test('Checking After button clicking edit profile there is no change in products', async ({ page }) => {
-await page.goto(url);
-const btn=await page.getByTestId('edit-profile-btn');
-await btn.click();
-await expect(btn).toBeVisible();
-
-const cards = page.getByTestId('product-card-1');
-await expect(cards.getByTestId('product-name')).toHaveText('Product A');
-await expect(cards.getByTestId('product-price')).toHaveText('$19.99');  
-
-const card2=page.getByTestId('product-card-2');
-await expect(card2.getByTestId('product-name')).toHaveText('Product B');
-await expect(card2.getByTestId('product-price')).toHaveText('$29.99');
-
-const card3=page.getByTestId('product-card-3');
-await expect(card3.getByTestId('product-name')).toHaveText('Product C');
-await expect(card3.getByTestId('product-price')).toHaveText('$39.99');
-});
-
-test('checking that after cliking links we are redirected to same site or not', async ({ page }) => {
-await page.goto(url);
-// home
-const link1=await page.getByTestId('nav-home');
-await link1.click();
-await expect(page).toHaveURL(url);
-// products
-const link2=await page.getByTestId('nav-products');
-await link2.click();
-await expect(page).toHaveURL(url);
-// contact
-const link3=await page.getByTestId('nav-contact');
-await link3.click();
-await expect(page).toHaveURL(url);
-});
-
-
-test('clicking button and check the text isn present or not', async ({ page }) => {
-await page.goto(url);
-const btn=await page.getByTestId('footer-button');
-await expect(btn).toBeVisible();
-await btn.click();
-const text=await page.getByText ('This page demonstrates various Playwright locators for testing purposes.',{exact:true});
-await expect(text).toBeVisible();
-});
-
 
 // GetByText______________-----------------------__________________
 
