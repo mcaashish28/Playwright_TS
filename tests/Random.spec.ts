@@ -1,93 +1,233 @@
 import{test,expect,Page, Locator} from '@playwright/test';
+import { get } from 'node:http';
+
 const url='https://testautomationpractice.blogspot.com/p/playwrightpractice.html#';
 
-async function newWindow(page:Page,text:string,loc:Locator) {
+async function ID0RCLASS(page :Page,text:string,getBy:string):Promise<Locator> {
+    if(getBy=='ID'){
+        return page.locator(`#${text}`);
+    }
+    return page.locator(`.${text}`);
+}
+
+async function SingleTargetLoc(page:Page | Locator,text:string,getBy:string): Promise<Locator> {
+    
+    if(getBy=='Text'){
+    const btn = page.getByText(`${text}`,{exact:true});
+    return btn;
+    }else if(getBy=='Place'){
+    const btn2=page.getByPlaceholder(`${text}`);
+    return btn2;
+    }else if(getBy=='Alt'){
+    const btn3=page.getByAltText(`${text}`);
+    return btn3;
+    }else if(getBy=='Label'){
+    const btn4=page.getByLabel(`${text}`);
+    return btn4;
+    }else if(getBy=='Title'){
+    const btn5=page.getByTitle(`${text}`);
+    return btn5;
+    }else if(getBy=='Testid'){
+    const btn6=page.getByTestId(`${text}`);
+    return btn6;
+    }
+    return page.locator('sdf');
+}
+
+async function  DoubleTargetLoc(page:Page|Locator,role: 'button' | 'link' | 'textbox', 
+  accessibleName: string ):Promise<Locator> {
+    return page.getByRole(role,{name:accessibleName,exact:true}); 
+
+}
+
+async function newWindowLink(page:Page,btn:Locator) {
      const [newPage] = await Promise.all([
-        page.context().waitForEvent('page'),
-        await loc.click()
+        page.context().waitForEvent(`page`),
+        await btn.click(),
     ]);
     console.log(newPage.url());
     await newPage.waitForTimeout(100);
     newPage.close();
 }
 
-async function Linkstest(page:Page,text:string,type:string) {
-    const btn = page.getByText(`${text}`);
-   if(type=='new window'){
-    await  newWindow(page,text,btn)
-   } else {
-     await btn.click();
-     await page.context().newPage();
+async function Linkstest(page:Page,loc:Locator) {
+     await loc.click();
+    await page.context().newPage();
     console.log(page.url());
     await page.waitForTimeout(100);
-     await page.goBack();
-
-   }
+    await page.goBack();
 }
 
 
+test('Errorcode 400',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Errorcode 400','Text');
+await Linkstest(page,btn);
+});
 
-test('Broken Links Test ', async ({page}) => {
-     test.setTimeout(1000000);
-     await page.goto(url);
- 
-    await Linkstest(page,'Errorcode 400','');
-    await Linkstest(page,'Errorcode 401','');
-    await Linkstest(page,'Errorcode 403','');
-    await Linkstest(page,'Errorcode 404','');
-    await Linkstest(page,'Errorcode 408','');
-    await Linkstest(page,'Errorcode 500','');
-    await Linkstest(page,'Errorcode 502','');
-    await Linkstest(page,'Errorcode 503','');
+test('Errorcode 401',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Errorcode 401','Text');
+await Linkstest(page,btn);
+});
+
+test('Errorcode 403',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Errorcode 403','Text');
+await Linkstest(page,btn);
+});
+
+test('Errorcode 404',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Errorcode 404','Text');
+await Linkstest(page,btn);
+});
+
+test('Errorcode 408',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Errorcode 408','Text');
+await Linkstest(page,btn);
+});
+
+test('Errorcode 500',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Errorcode 500','Text');
+await Linkstest(page,btn);
+});
+
+test('Errorcode 502',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Errorcode 502','Text');
+await Linkstest(page,btn);
+});
+
+test('Errorcode 503',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Errorcode 503','Text');
+await Linkstest(page,btn);
+});
+
+test('Apple Link Test',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Apple','Text');
+await Linkstest(page,btn);
+});
+
+test('Lenovo Link Test',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Lenovo','Text');
+await Linkstest(page,btn);
+});
+
+test('Dell Link Test',async ({page}) => { 
+await page.goto(url);
+const btn=await SingleTargetLoc(page,'Dell','Text');
+await Linkstest(page,btn);
+});
+
+test('Fotter 1 Link Test',async ({page}) => { 
+await page.goto(url);
+const btn=await ID0RCLASS(page,'PageList1','ID');
+const btn2=await DoubleTargetLoc(btn,'link','Home');
+await Linkstest(page,btn2);
+});
+
+test('Fotter 2 Link Test',async ({page}) => { 
+await page.goto(url);
+const btn=await ID0RCLASS(page,'PageList1','ID');
+const btn2=await DoubleTargetLoc(btn,'link','Hidden Elements & AJAX');
+await Linkstest(page,btn2);
+});
+
+test('Fotter 3 Link Test',async ({page}) => { 
+await page.goto(url);
+const btn=await ID0RCLASS(page,'PageList1','ID');
+const btn2=await DoubleTargetLoc(btn,'link','Download Files');
+await Linkstest(page,btn2);
+});
+
+test('merrymoonmary Link test', async ({page}) => {
+await page.goto(url);
+const btn=await ID0RCLASS(page,'Attribution1','ID');
+const btn2=await DoubleTargetLoc(btn,'link','merrymoonmary');
+await newWindowLink(page,btn2);
+});
+
+test('Blogger Link test', async ({page}) => {
+await page.goto(url);
+const btn=await ID0RCLASS(page,'Attribution1','ID');
+const btn2=await DoubleTargetLoc(btn,'link','Blogger');
+await newWindowLink(page,btn2);
+});
+
+test('Top Blog Link test', async ({page}) => {
+await page.goto(url);
+const btn=await ID0RCLASS(page,'PageList2','ID');
+await Linkstest(page,btn);
+});
+
+test('Youtube Link test', async ({page}) => {
+await page.goto(url);
+const btn=await ID0RCLASS(page,'footer-2-2','ID');
+const btn2= await SingleTargetLoc(btn,'Youtube','Text');
+await Linkstest(page,btn2);
+});
+
+
+test('Sample Test23', async ({page}) => {
+    await page.goto(url);
+ const btn=await ID0RCLASS(page,'footer-2-2','ID');
+ const btn2= await SingleTargetLoc(btn,'Youtube','Text');
+ await Linkstest(page,btn2);
+// await Linkstest(page,btn2);
+});
+
+
+// Comments atom test
+test('Comments atom Link test3',async({ page }) =>{
+
+    await page.goto(url);
+    const widg=page.locator('.feed-link');
+     const [newPage] = await Promise.all([
+     page.context().waitForEvent('page'), 
+      await widg .getByText('Comments (Atom)',{exact: true}).click()  
+]);
+
+    await newPage.waitForLoadState();
+
+         
+    console.log('New page URL:',newPage.url()); 
+    await expect(newPage).toHaveURL('https://testautomationpractice.blogspot.com/feeds/posts/default');
 
 
 });
 
+// added Home Link tests
 
-
-
-test('Fotter Links test', async ({page}) => {
+test('Homelast Link test3 ', async ({ page }) => {
     await page.goto(url);
-    const widg=page.locator('#PageList1');
-            
-     await widg .getByRole('link', { name: 'Home' }).click();
-     console.log(page.url());
-     await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
+    const widg=page.locator('.home-link');
+    
+    await widg .getByText('Home',{exact: true}).click();   
 
-     const head=await page.locator('#header-inner');
-     console.log(await head.locator('p').textContent());
-     page.close();
-        
+await page.waitForLoadState();      
+console.log('New page URL:',page.url()); 
+await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
+
 });
 
+// Automation Testing Practice link test
 
-test('Fotter 2 Links test', async ({page}) => {
+test('Automation head Link test 3', async ({ page }) => {
     await page.goto(url);
-    const widg=page.locator('#PageList1');
-            
-     await widg .getByRole('link', { name: 'Hidden Elements & AJAX' }).click();
-     console.log(page.url());
-     await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/p/gui-elements-ajax-hidden.html');
+    const widg=page.locator('#header-inner');
+    
+    await widg .getByText('Automation Testing Practice',{exact: true}).click();   
 
-     const head=await page.locator('#header-inner');
-     console.log(await head.locator('p').textContent());
-     page.close();
-        
-});
+await page.waitForLoadState();      
+console.log('New page URL:',page.url()); 
+await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
 
-
-test('Fotter 3 Links test', async ({page}) => {
-    await page.goto(url);
-    const widg=page.locator('#PageList1');
-            
-     await widg .getByRole('link', { name: 'Download Files' }).click();
-     console.log(page.url());
-     await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/p/download-files_25.html');
-
-     const head=await page.locator('#header-inner');
-     console.log(await head.locator('p').textContent());
-     page.close();
-        
 });
 
 
@@ -229,37 +369,6 @@ test('Labels & Links Test', async ({page}) => {
 });
 
 
-// Laptop Links Test---------------------------------------------------------------
-    // Apple link test
-test('AppleLinks Test', async ({page}) => {
-    await page.goto(url);
-    await page.getByText('Laptop Links');
-    const appleLink =  page.getByText('Apple', { exact: true });
-    await appleLink.click();
-    await expect(page).toHaveURL('https://www.apple.com/');
-    await page.goBack();
-});
-
- // lenovo link test
-test('Lenovo Links Test', async ({page}) => {
-    await page.goto(url);
-    await page.getByText('Laptop Links');
-    const lenovoLink =  page.getByText('Lenovo', { exact: true });
-    await lenovoLink.click();
-    await expect(page).toHaveURL('https://www.lenovo.com/in/en/');
-    await page.goBack();
-});
-
-// Dell link test
-test('Dell Links Test', async ({page}) => {
-    await page.goto(url);
-    await page.getByText('Laptop Links');
-    const dellLink =  page.getByText('Dell', { exact: true });
-    await dellLink.click();
-    await expect(page).toHaveURL('https://www.dell.com/en-in');
-    await page.goBack();
-});
-
 
 // Visitors Test ----------------------------------------------------------------
 
@@ -337,33 +446,6 @@ test('Back to top test', async ({page}) => {
     const para=page.getByText('This page demonstrates various Playwright locators for testing purposes.',{exact:true});
     await expect(para).toBeVisible();
     page.close();
-
-        
-});
-
-
-// Footer Links Test----------------------------------------------------------------
-
-
-
-// Links test
-
-test('merrymoonmary Links test', async ({page}) => {
-    await page.goto(url);
-    const widg=page.locator('#Attribution1');
-            
-   
-     
-     const [newPage] = await Promise.all([
-  page.context().waitForEvent('page'), 
-    await widg .getByRole('link', { name: 'merrymoonmary' }).click()     
-]);
-
-await newPage.waitForLoadState();      
-console.log('New page URL:', await newPage.url()); 
-
-await expect(page).toHaveURL('https://www.istockphoto.com/portfolio/merrymoonmary?platform=blogger');
-
 
         
 });
@@ -897,57 +979,6 @@ test('verify for unpresent', async ({ page }) => {
     await expect(page.getByTitle('Non-existent Title')).not.toBeVisible();
 });
 
-
-
-
-// blogger Link Test
-
-
-test('blogger link test', async ({ page }) => {
-
-await page.goto(url);
-    const widg=page.locator('#Attribution1');
-    const [newPage] = await Promise.all([
-     page.context().waitForEvent('page'), 
-     await widg .getByRole('link', { name: 'Blogger' }).click()     
-]);
-
-await newPage.waitForLoadState();      
-console.log('New page URL:',newPage.url()); 
-
-// We Are Not Using session here so we are using www 
-
-await expect(newPage).toHaveURL('https://www.blogger.com/about/?bpli=1');
-newPage.close();
-});
-
-//  blog link test
-
-
-test('blog link test', async ({ page }) => {
-    await page.goto(url);
-    const widg=page.locator('#shadow_host');
-    
-    await widg .getByText('Blog',{exact: true}).click()     
-
-await page.waitForLoadState();      
-console.log('New page URL:',page.url()); 
-await expect(page).toHaveURL('https://www.pavantestingtools.com/');
-
-});
-
-// Youtube Link Test  
-test('Youtube Link test ', async ({ page }) => {
-    await page.goto(url);
-    const widg=page.locator('#footer-2-2');
-    
-    await widg .getByText('Youtube',{exact: true}).click();   
-
-await page.waitForLoadState();      
-console.log('New page URL:',page.url()); 
-await expect(page).toHaveURL('https://www.youtube.com/@sdetpavan/videos');
-
-});
 
 // Comments atom test
 test('Comments atom Link test',async({ page }) =>{
