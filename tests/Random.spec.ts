@@ -1,5 +1,4 @@
 import{test,expect,Page, Locator} from '@playwright/test';
-import { get } from 'node:http';
 
 const url='https://testautomationpractice.blogspot.com/p/playwrightpractice.html#';
 
@@ -163,6 +162,7 @@ await newWindowLink(page,btn2);
 test('Top Blog Link test', async ({page}) => {
 await page.goto(url);
 const btn=await ID0RCLASS(page,'PageList2','ID');
+const btn2= await SingleTargetLoc(btn,'Blog','Text');
 await Linkstest(page,btn);
 });
 
@@ -173,62 +173,116 @@ const btn2= await SingleTargetLoc(btn,'Youtube','Text');
 await Linkstest(page,btn2);
 });
 
+test('Comments Atom Link Test', async ({page}) => {
+await page.goto(url);
+const btn=await ID0RCLASS(page,'feed-link','class');
+const btn2= await SingleTargetLoc(btn,'Comments (Atom)','Text');
+await Linkstest(page,btn2);
+});
+
+test('Home Last Link Test', async ({page}) => {
+await page.goto(url);
+const btn=await ID0RCLASS(page,'home-link','class');
+const btn2= await SingleTargetLoc(btn,'Home','Text');
+await Linkstest(page,btn2);
+});
+
+test('Automation Practice Headlink test', async ({page}) => {
+await page.goto(url);
+const btn=await ID0RCLASS(page,'titlewrapper','class');
+const btn2= await SingleTargetLoc(btn,'Automation Testing Practice','Text');
+await Linkstest(page,btn2);
+});
 
 test('Sample Test23', async ({page}) => {
-    await page.goto(url);
- const btn=await ID0RCLASS(page,'footer-2-2','ID');
- const btn2= await SingleTargetLoc(btn,'Youtube','Text');
+await page.goto(url);
+const btn=await ID0RCLASS(page,'titlewrapper','class');
+const btn2= await SingleTargetLoc(btn,'Automation Testing Practice','Text');
  await Linkstest(page,btn2);
-// await Linkstest(page,btn2);
 });
 
+test('Udemy Course Link test', async ({page}) => {
+await page.goto(url);
+const btn=await ID0RCLASS(page,'PageList2','ID');
+const btn2= await SingleTargetLoc(btn,'Udemy Courses','Text');
+await Linkstest(page,btn2);
+});
 
-// Comments atom test
-test('Comments atom Link test3',async({ page }) =>{
+test('Online Training Link test', async ({page}) => {
+await page.goto(url);
+const btn=await ID0RCLASS(page,'PageList2','ID');
+const btn2= await SingleTargetLoc(btn,'Online Trainings','Text');
+await Linkstest(page,btn2);
+});
 
+test('Inputing LabelGmail test', async ({ page }) => {
+await page.goto(url);
+const adr=await SingleTargetLoc(page,'Email Address:','Label');
+await inputvalues(adr,'akarshitmahajan1094')
+});
+
+test('Inputing LabelPassword test', async ({ page }) => {
+await page.goto(url);
+const pass=await SingleTargetLoc(page,' Password: ','Label');
+await  inputvalues(pass,'1234578');
+});
+
+test('Standard Shipping CheckMethod Test', async ({ page }) => {
+await page.goto(url);
+const legend= await ID0RCLASS(page,'label-locators','ID');
+const standard=await SingleTargetLoc(legend,' Standard','Label')
+await checkmark(standard);
+await expect(standard).toBeChecked();
+});
+
+test('Express Shipping CheckMethod Test', async ({ page }) => {
+await page.goto(url);
+const legend= await ID0RCLASS(page,'label-locators','ID');
+const express=await SingleTargetLoc(legend,' Express','Label')
+await checkmark(express);
+await expect(express).toBeChecked();
+});
+
+async function inputvalues(btn1:Locator,v1:string,) {
+    await btn1.isVisible();
+    await btn1.fill(v1);
+
+}   
+
+async function erasevalues(btn1:Locator) {
+    await btn1.clear();    
+}
+
+async function checkmark(btn1:Locator) {
+    await btn1.check();
+}
+
+
+test('Age inputting Test', async ({ page }) => {
+await page.goto(url);
+const age=await SingleTargetLoc(page,'Your Age:','Label');
+await inputvalues(age,'25');
+await erasevalues(age);
+await inputvalues(age,'40');
+expect(age).toHaveValue('40');
+});
+
+  test('fill email and click on shipping method and check the email value & clear & fill new value & check clicbox2 ', async ({ page }) => {
     await page.goto(url);
-    const widg=page.locator('.feed-link');
-     const [newPage] = await Promise.all([
-     page.context().waitForEvent('page'), 
-      await widg .getByText('Comments (Atom)',{exact: true}).click()  
-]);
+    const adr= page.getByLabel('Email Address:');
+    adr.focus();
+    await adr.fill('Aperion123@gmail.com');
+    await expect(adr).toHaveValue('Aperion123@gmail.com');
+    const stshiping=page.getByLabel(' Standard');
+    await stshiping.check();
+    await expect(stshiping).toBeChecked();
+    await adr.clear();
+    await expect(adr).toHaveValue('');
+    await adr.fill('NewEmail@gmail.com');
+    await expect(adr).toHaveValue('NewEmail@gmail.com');
+    await expect(stshiping).toBeChecked();
+  });
 
-    await newPage.waitForLoadState();
-
-         
-    console.log('New page URL:',newPage.url()); 
-    await expect(newPage).toHaveURL('https://testautomationpractice.blogspot.com/feeds/posts/default');
-
-
-});
-
-// added Home Link tests
-
-test('Homelast Link test3 ', async ({ page }) => {
-    await page.goto(url);
-    const widg=page.locator('.home-link');
-    
-    await widg .getByText('Home',{exact: true}).click();   
-
-await page.waitForLoadState();      
-console.log('New page URL:',page.url()); 
-await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
-
-});
-
-// Automation Testing Practice link test
-
-test('Automation head Link test 3', async ({ page }) => {
-    await page.goto(url);
-    const widg=page.locator('#header-inner');
-    
-    await widg .getByText('Automation Testing Practice',{exact: true}).click();   
-
-await page.waitForLoadState();      
-console.log('New page URL:',page.url()); 
-await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
-
-});
 
 
 //  Drag and Drop Test----------------------------------------------------------------
@@ -503,36 +557,6 @@ test('checking image is full size',async({page})=>{
 
 
 // Get By Label Text Test---------------_____________________----------------_____________---------------
-
-
-
-test('Inputing Values test', async ({ page }) => {
-    await page.goto(url);
-    const adr=await page.getByLabel('Email Address:');
-    adr.focus();
-    await adr.fill('Aperion123@gmail.com');
-    await expect(adr).toHaveValue('Aperion123@gmail.com');
-   
-
-    const pass=await page.getByLabel(' Password: ');
-    pass.focus();
-    await pass.fill('123456789');
-    await expect(pass).toHaveValue('123456789');
-    // Checking for email adress value
-    await expect(adr).toHaveValue('Aperion123@gmail.com');
-
-
-    const ag=await page.getByLabel('Age:');
-    ag.focus();
-    await ag.fill('19');
-    await expect(ag).toHaveValue('19');
-
-    // checking for upper filled values
-    await expect(pass).toHaveValue('123456789');
-    await expect(adr).toHaveValue('Aperion123@gmail.com');
-});
-
-
 
 test('Shiiping method test', async ({ page }) => {
     await page.goto(url);
@@ -980,51 +1004,5 @@ test('verify for unpresent', async ({ page }) => {
 });
 
 
-// Comments atom test
-test('Comments atom Link test',async({ page }) =>{
-
-    await page.goto(url);
-    const widg=page.locator('.feed-link');
-     const [newPage] = await Promise.all([
-     page.context().waitForEvent('page'), 
-      await widg .getByText('Comments (Atom)',{exact: true}).click()  
-]);
-
-    await newPage.waitForLoadState();
-
-         
-    console.log('New page URL:',newPage.url()); 
-    await expect(newPage).toHaveURL('https://testautomationpractice.blogspot.com/feeds/posts/default');
-
-
-});
-
-// added Home Link tests
-
-test('Homelast Link test ', async ({ page }) => {
-    await page.goto(url);
-    const widg=page.locator('.home-link');
-    
-    await widg .getByText('Home',{exact: true}).click();   
-
-await page.waitForLoadState();      
-console.log('New page URL:',page.url()); 
-await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
-
-});
-
-// Automation Testing Practice link test
-
-test('Automation head Link test ', async ({ page }) => {
-    await page.goto(url);
-    const widg=page.locator('#header-inner');
-    
-    await widg .getByText('Automation Testing Practice',{exact: true}).click();   
-
-await page.waitForLoadState();      
-console.log('New page URL:',page.url()); 
-await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
-
-});
 
 
