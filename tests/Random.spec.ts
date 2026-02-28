@@ -51,7 +51,7 @@ async function SingleTargetLoc(page:Page | Locator,text:string,getBy:string): Pr
     return page.locator('sdf');
 }
 
-async function  DoubleTargetLoc(page:Page|Locator,role: 'button' | 'link' | 'textbox', 
+async function  DoubleTargetLoc(page:Page|Locator,role: 'button' | 'link' | 'textbox'|'heading'|'checkbox', 
   accessibleName: string ):Promise<Locator> {
     return page.getByRole(role,{name:accessibleName,exact:true}); 
 
@@ -361,67 +361,66 @@ const image = await SingleTargetLoc(page,'logo image','Alt');
 await image.hover();
 });
 
+test('Role ToggleButton test', async ({ page }) => {
+await page.goto(url);
+const button1=await DoubleTargetLoc(page,'button','Toggle Button');
+await button1.isVisible();
+await button1.click();
+});
 
-// GetByRole _______________--------------_____________--------------_______________-----------
-
-
-test('Button test', async ({ page }) => {
-  await page.goto(url);
-
-
-const button = await page.getByRole('button', { name: 'Primary Action' });
+test('Role PrimaryActionButton test', async ({ page }) => {
+await page.goto(url);
+const button=await DoubleTargetLoc(page,'button','Primary Action');
+await button.isVisible();
 await button.click();
-
-const button2= await page.getByRole('button',{ name: 'Toggle Button' });
-await button2.click();
-const button3= await page.getByRole('button',{ name: 'Div with button role' });
-await button3.click();
 });
 
-
-
-test("Headings test", async ({ page }) => {
-    await page.goto(url);
-     await expect(page.getByRole('heading', { name: 'Buttons' })).toBeVisible();
-     await expect(page.getByRole('heading', { name: 'Form Elements' })).toBeVisible();
-     await expect(page.getByRole('heading', { name: 'Navigation' })).toBeVisible();
+test("Role Navigation test", async ({ page }) => {
+await page.goto(url);
+const button2=await DoubleTargetLoc(page,'heading','Navigation');
+await expect(button2).toBeVisible();
 });
 
-
-test("Links test", async ({ page }) => {
-    await page.goto(url);
-    
-    await page.getByRole('menuitem', { name: 'Home' }).click();
-    await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
-    await page.getByRole('menuitem', { name: 'Products' }).click();
-     await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
-    await page.getByRole('menuitem', { name: 'Contact' }).click();
-     await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
-
-}); 
-
-test("Username test & checkbox", async ({ page }) => {
-    await page.goto(url);
-    await page.locator('#username').fill('Akarshit');
-    await expect(page.locator('#username')).toHaveValue('Akarshit');
-    const pagecheck=await expect(page.getByRole('checkbox', { name: 'Accept Terms' })).toBeChecked;
-    // await expect(page.getByRole('checkbox', { name: 'Accept Terms' })).toBeChecked();
-   console.log(pagecheck);
-   await page.locator('#username').clear();
+test("Role UsernameFilling Test ", async ({ page }) => {
+await page.goto(url);
+const button2=await DoubleTargetLoc(page,'textbox','Username:');
+await inputvalues(button2,'Akarshit');
+await expect(button2).toBeVisible();
 });
 
-test("click button afect textfeild or not", async ({ page }) => {
-    await page.goto(url);
-    await page.locator('#username').fill('Akarshit');
-    const button =  page.getByRole('button', { name: 'Primary Action' });
-    await button.click();
+test('Text Important test', async ({ page }) => { 
+await page.goto(url);
+const word=await SingleTargetLoc(page,'important','Text');
+await word.isVisible();
+});  
 
-    const button2= await page.getByRole('button',{ name: 'Toggle Button' });
-    await button2.click();
-
-    await expect(page.locator('#username')).toHaveValue('Akarshit');
+test('Text Button test', async ({ page }) => {
+await page.goto(url);
+const button=await SingleTargetLoc(page,'Submit Form','Text');
+await button.isVisible();
+await button.click();
 });
 
+test('Title HTML test', async ({ page }) => {
+await page.goto(url);
+const mark=await SingleTargetLoc(page,'HyperText Markup Language','Title');
+await mark.isVisible();
+console.log(await mark.innerText());
+});
+
+test('Title 3 test', async ({ page }) => {
+await page.goto(url);
+const mark=await SingleTargetLoc(page,'Tooltip text','Title');
+await mark.isVisible();
+console.log(await mark.innerText());
+});
+
+test('Title Button test', async ({ page }) => {
+await page.goto(url);
+const mark=await SingleTargetLoc(page,'Click to save your changes','Title');
+await mark.isVisible();
+console.log(await mark.innerText());
+});
 //  Drag and Drop Test----------------------------------------------------------------
 
 test('Drag and Drop Test', async ({page}) => {
@@ -640,113 +639,3 @@ test('Back to top test', async ({page}) => {
 
         
 });
-
-// GetByText______________-----------------------__________________
-
-
-test('Get by text test', async ({ page }) => { 
-await page.goto('https://testautomationpractice.blogspot.com/p/playwrightpractice.html');
-const text1 = await page.getByText(/Locate elements by their text content/i).textContent();
-console.log(text1);
-expect(text1).toMatch(/Locate elements by their text content/i);
-});  
-
-
-
-test('Get by insesitivetext', async ({ page }) => {
-    await page.goto('https://testautomationpractice.blogspot.com/p/playwrightpractice.html');
-const text2 = await page.getByText('List item 1', { exact: true });
-
-  await expect(text2).toBeVisible();
-
-const caseInsensitiveText = page.getByText('list item 1');
-
-  await expect(caseInsensitiveText).toHaveCount(1);
-    
-});
-
-
-
-test('links test', async ({ page }) => {
-    await page.goto('https://testautomationpractice.blogspot.com/p/playwrightpractice.html');
-    await page.getByText('link', { exact: true }).click();
-    await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
-    
-});
-
-
-
-test('special test', async ({ page }) => {
-    await page.goto('https://testautomationpractice.blogspot.com/p/playwrightpractice.html');
-   const special=await page.getByText('important', { exact: true });
-   await expect(special).toBeVisible();
-   await expect(special).toHaveCount(1);
-
-   /// unpresent word text
-    const unpresent=await page.getByText('unpresent', { exact: true });
-    await expect(unpresent).toHaveCount(0);
-
-});
-
-
-
-test('button test', async ({ page }) => {
-    await page.goto('https://testautomationpractice.blogspot.com/p/playwrightpractice.html');
-    const button=await page.getByText('Submit Form', { exact: true });
-    await button.click();
-    await expect(page).toHaveURL(/testautomationpractice\.blogspot\.com/);
-
-    const message = page.getByText('Click the button above to submit your information.');
-    await expect(message).toBeVisible();
-});
-
-
-
-
-// GetByTitle_____________---------------______________------------_____-
-
-test('getByTitle are they present', async ({ page }) => {
-  await page.goto(url);
-  await expect(page.getByTitle('HyperText Markup Language')).toHaveText('HTML');
-  await expect(page.getByTitle('Home Page Link')).toHaveText('Home');
-});
-
-test('verify btn/link doesnt moves to another site', async ({ page }) => {
-    await page.goto( url);
-    const btn=page.getByTitle('Save');
-    btn.click();
-    await page.getByText('Save').click();
-    await expect(page).toHaveURL(url);
-
-    await page.locator('a[title="Home page link"]').click();
-    await expect(page).toHaveURL(url);
-    // console.log(await page.url());
-});
-
-test('Click On button and see does exist attribute ', async ({ page }) => {
-    await page.goto(url);
-    const btn1=page.getByTitle('Save');
-    await expect(btn1).toBeVisible();
-    await btn1.click();
-    await expect(page.getByTitle('HyperText Markup Language')).toHaveText('HTML');
-    await expect(page.getByTitle('Home Page Link')).toHaveText('Home');
-    await expect(page.getByTitle('Tooltip text')).toHaveText('This text has a tooltip');
-});
-
-test('click on save btn and click on home link and redirected to same site or another site', async ({ page }) => {
-    await page.goto(url);
-    const btn=page.getByTitle('Save');
-    await expect(btn).toBeVisible();
-  await btn.click();
-    await page.locator('a[title="Home page link"]').click();
-    await expect(page).toHaveURL(url);
-});
-
-test('verify for unpresent', async ({ page }) => {
-    await page.goto(url);
-    await expect(page.getByTitle('Non-existent Title')).not.toBeVisible();
-});
-
-
-
-
