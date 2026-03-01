@@ -104,4 +104,4 @@ test('Heading Test', async ({page}) => {
 test('Scrolling Heading Test', async ({page}) => {
     await page.goto(url);
 
-   });
+});
