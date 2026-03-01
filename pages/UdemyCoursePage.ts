@@ -1,7 +1,8 @@
-import { Page,BrowserContext,expect, Locator } from "@playwright/test";
+import { Page,BrowserContext,expect, Locator, APIResponse } from "@playwright/test";
 
 export class UdemyCoursePage{
     constructor(private page:Page,private context:BrowserContext){}
+
 
 async clickButton(role:string,name:string){
 this.page.getByRole(role as any,{name});
@@ -18,12 +19,23 @@ return card.locator(want)
 
 
 
-async CourseImageLoadStatus(card:Locator){
+async CourseImageLoadStatus(card:Locator):Promise<APIResponse>{
 const src=await card.getAttribute('src');
 const response=await this.page.request.get(src!)
 expect(response.status()).toBe(200);
+return response;
 }
 
+async ImageFileSizeTest(response: APIResponse){
+  const buffer = await  response.body();
+  const sizeInKB = buffer.length / 1024;
+expect(sizeInKB).toBeLessThan(500); // company standard
+}
+
+
+async ImagePixelTest(img:Locator) {
+await expect(img).toHaveScreenshot();
+}
 
 
 
@@ -45,7 +57,9 @@ const btn1=await this.getConstantCard(course,'a');
 const img=await this.getConstantCard(course,'img');
 
 await this.ClickandHandleNewTab(btn1);
-await this.CourseImageLoadStatus(img);
+const res=await this.CourseImageLoadStatus(img);
+await this.ImageFileSizeTest(res);
+await this.ImagePixelTest(img);
 }
 
 
