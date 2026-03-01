@@ -44,7 +44,7 @@ await practice.BrokenError('#broken-links','Errorcode 503');
 });
 
 test('AppleLink Test',async ({page}) => { 
-await practice.BrokenError('#laptops','Apple');
+await practice.LaptopLinks('#laptops','Apple');
 });
 
 test('LenovoLink Test',async ({page}) => { 
@@ -68,7 +68,7 @@ await practice.BrokenError('#PageList1','Download Files');
 });
 
 test('MerryMoon Link Test',async ({page}) => { 
-await practice.BrokenError('#Attribution1','merrymoonmary');
+await practice.BrokenError('#Attribution1','merrymoonmary')
 });
 
 test('Blogger Link Test',async ({page}) => { 
@@ -103,187 +103,81 @@ test('Online Training Link Test',async ({page}) => {
 await practice.BrokenError('#PageList2','Online Trainings');
 });
 
+test('SimpleAlert Test',async ({page}) => { 
+await practice.PopupChecker('Simple Alert');
+});
 
-// async function ForSearch(Btn:Locator,searchVal:string) {
-//  await Btn.pressSequentially(`{searchval}`,{delay:300});
-// }
+test('Confirmational alert Test',async ({page}) => { 
+await practice.PopupChecker('Confirmation Alert');
+});
 
-// async function inputvalues(btn1:Locator,v1:string,) {
-//     await btn1.isVisible();
-//     await btn1.fill(v1);
+test('Negative Prompt alert Test',async ({page}) => { 
+await practice.PopupChecker('Prompt Alert');
+});
 
-// }   
+test('Window popup alert Test',async ({page}) => { 
+await practice.NewWindow('New Tab');
+});
 
-// async function erasevalues(btn1:Locator) {
-//     await btn1.clear();    
-// }
+test('Popup Windows Test',async ({page}) => { 
+await practice.NewWindow('Popup Windows');
+});
 
-// async function checkmark(btn1:Locator) {
-//     await btn1.check();
-// }
+test('Label Inputing Gmail test', async ({ page }) => {
+await practice.labelInputtingTest('Email Address:','akarshitmahajan1094')
+});
 
-// async function ID0RCLASS(page :Page,text:string,getBy:string):Promise<Locator> {
-//     if(getBy=='ID'){
-//         return page.locator(`#${text}`);
-//     }
-//     return page.locator(`.${text}`);
-// }
+test('Label Inputing Password test', async ({ page }) => {
+await practice.labelInputtingTest(' Password: ','1234578')
+});
 
-// async function SingleTargetLoc(page:Page | Locator,text:string,getBy:string): Promise<Locator> {
-    
-//     if(getBy=='Text'){
-//     const btn = page.getByText(`${text}`,{exact:true});
-//     return btn;
-//     }else if(getBy=='Place'){
-//     const btn2=page.getByPlaceholder(`${text}`);
-//     return btn2;
-//     }else if(getBy=='Alt'){
-//     const btn3=page.getByAltText(`${text}`);
-//     return btn3;
-//     }else if(getBy=='Label'){
-//     const btn4=page.getByLabel(`${text}`);
-//     return btn4;
-//     }else if(getBy=='Title'){
-//     const btn5=page.getByTitle(`${text}`);
-//     return btn5;
-//     }else if(getBy=='Testid'){
-//     const btn6=page.getByTestId(`${text}`);
-//     return btn6;
-//     }
-//     return page.locator('sdf');
-// }
+test('Label Express Shipping CheckMethod Test', async ({ page }) => {
+await practice.CheckingShippingMethod( ' Express');
+});
 
-// async function  DoubleTargetLoc(page:Page|Locator,role: 'button' | 'link' | 'textbox'|'heading'|'checkbox', 
-//   accessibleName: string ):Promise<Locator> {
-//     return page.getByRole(role,{name:accessibleName,exact:true}); 
+test('Label Standard Shipping CheckMethod Test', async ({ page }) => {
+await practice.CheckingShippingMethod( ' Standard');
+});
 
-// }
+test('Label Inputing Age test', async ({ page }) => {
+await practice.labelInputtingTest('Your Age:','1234')
+});
 
-// async function newWindowLink(page:Page,btn:Locator) {
-//      const [newPage] = await Promise.all([
-//         page.context().waitForEvent(`page`),
-//         await btn.click(),
-//     ]);
-//     console.log(newPage.url());
-//     await newPage.waitForTimeout(100);
-//     newPage.close();
-// }
+test('Place Inputing Name test', async ({ page }) => {
+await practice.PlaceInputtingTest('Enter your full name','Akarshit')
+});
 
-// async function Linkstest(page:Page,loc:Locator) {
-//      await loc.click();
-//     await page.context().newPage();
-//     console.log(page.url());
-//     await page.waitForTimeout(100);
-//     await page.goBack();
-// }
+test('Place Inputing PhoneNumber test', async ({ page }) => {
+await practice.PlaceInputtingTest('Phone number (xxx-xxx-xxxx)','6280327973')
+});
 
-// test('Udemy Course Link test', async ({page}) => {
-// await page.goto(url);
-// const btn=await ID0RCLASS(page,'PageList2','ID');
-// const btn2= await SingleTargetLoc(btn,'Udemy Courses','Text');
-// await Linkstest(page,btn2);
-// });
+test('Place Inputing Message test', async ({ page }) => {
+await practice.PlaceInputtingTest('Type your message here...','I Am Good Coder,Agreed?')
+});
 
-// test('Online Training Link test', async ({page}) => {
-// await page.goto(url);
-// const btn=await ID0RCLASS(page,'PageList2','ID');
-// const btn2= await SingleTargetLoc(btn,'Online Trainings','Text');
-// await Linkstest(page,btn2);
-// });
+test('Place Search test', async ({ page }) => {
+await practice.PlaceInputtingTest('Search products...','Laptop')
+});
 
-// test('Label Inputing Gmail test', async ({ page }) => {
-// await page.goto(url);
-// const adr=await SingleTargetLoc(page,'Email Address:','Label');
-// await inputvalues(adr,'akarshitmahajan1094')
-// });
+test('Place Button test', async ({ page }) => {
+await practice.PlaceButttonTest('Search');
+});
 
-// test('Label Inputing Password test', async ({ page }) => {
-// await page.goto(url);
-// const pass=await SingleTargetLoc(page,' Password: ','Label');
-// await  inputvalues(pass,'1234578');
-// });
+test('TestID Button test', async ({ page }) => {
+await practice.Test_IDVisiblityTest('edit-profile-btn')
+});
 
-// test('Label Standard Shipping CheckMethod Test', async ({ page }) => {
-// await page.goto(url);
-// const legend= await ID0RCLASS(page,'label-locators','ID');
-// const standard=await SingleTargetLoc(legend,' Standard','Label')
-// await checkmark(standard);
-// await expect(standard).toBeChecked();
-// });
+test('TestID Name test', async ({ page }) => {
+await practice.Test_IDVisiblityTest('profile-name')
+});
 
-// test('Label Express Shipping CheckMethod Test', async ({ page }) => {
-// await page.goto(url);
-// const legend= await ID0RCLASS(page,'label-locators','ID');
-// const express=await SingleTargetLoc(legend,' Express','Label')
-// await checkmark(express);
-// await expect(express).toBeChecked();
-// });
+test('TestID Gamil test', async ({ page }) => {
+await practice.Test_IDVisiblityTest('profile-email')
+});
 
-// test('Label Age inputting Test', async ({ page }) => {
-// await page.goto(url);
-// const age=await SingleTargetLoc(page,'Your Age:','Label');
-// await inputvalues(age,'25');
-// await erasevalues(age);
-// await inputvalues(age,'40');
-// await expect(age).toHaveValue('40');
-// });
-
-// test('PlaceHolders Inputing Name test', async ({ page }) => {
-// await page.goto(url);
-// const gname=await SingleTargetLoc(page,'Enter your full name','Place');
-// await inputvalues(gname,'Akarshit')
-// });
-
-// test('PlaceHolders Inputing PhoneNumber test', async ({ page }) => {
-// await page.goto(url);
-// const pno=await SingleTargetLoc(page,'Phone number (xxx-xxx-xxxx)','Place');
-// await inputvalues(pno,'123457783');
-// });
-
-// test('PlaceHolders Inputing Message test', async ({ page }) => {
-// await page.goto(url);
-// const pno=await SingleTargetLoc(page,'Type your message here...','Place');
-// await inputvalues(pno,' I Am Good Coder,Agreed?');
-// });
-
-// test('PlaceHolders Search test', async ({ page }) => {
-// await page.goto(url);
-// const search=await SingleTargetLoc(page,'Search products...','Place');
-// await ForSearch(search,'Laptop');
-// });
-
-// test('PlaceHolders Button test', async ({ page }) => {
-// await page.goto(url);
-// const btn=await SingleTargetLoc(page,'Search','Place');
-// await btn.isVisible();
-// });
-
-// test('TestID Button test', async ({ page }) => {
-// await page.goto(url);
-// const btn=await SingleTargetLoc(page,'edit-profile-btn','Testid');
-// await btn.isVisible();
-// });
-
-// test('TestID Name test', async ({ page }) => {
-// await page.goto(url);
-// const gname=await SingleTargetLoc(page,'profile-name','Testid');
-// await gname.isVisible();
-// });
-
-// test('TestID Gamil test', async ({ page }) => {
-// await page.goto(url);
-// const gname=await SingleTargetLoc(page,'profile-email','Testid');
-// await gname.isVisible();
-// });
-
-// test('TestID ProductA test', async ({ page }) => {
-// await page.goto(url);
-// const name=await ID0RCLASS(page,'product-card-2','ID')
-// const ppname=await SingleTargetLoc(name,'product-name','Testid')
-// await ppname.isVisible();
-// const pprice=await SingleTargetLoc(name,'product-price','Testid')
-// await pprice.isVisible();
-// });
+test('TestID ProductA test', async ({ page }) => {
+  await practice.Test_IdLocatorVisibleTest('product-name','product-price')
+});
 
 // test('ALT ImageVisibility test', async ({ page }) => {
 // await page.goto(url);
@@ -406,105 +300,6 @@ await practice.BrokenError('#PageList2','Online Trainings');
 //     await page.getByRole('link', { name: 'Laptops' }).click();
 //     await expect(page).toHaveURL(url);
 // });
-
-// // Alerts Test & Popup Test------------------------------------------------------------
-
-// test(' Simple Alert Test', async ({page}) => {
-//     await page.goto(url);   
-//     page.on('dialog', async (popup) => {
-//         console.log(popup.message());
-//         await popup.accept();
-//     });
-//     await page.getByText('Simple Alert').click();
-   
-// });
-
-// // Conformation Alert Test
-// test(' Confirmation Alert Test', async ({page}) => {
-//     await page.goto(url);   
-    
-//     page.on('dialog', async (popup) => {
-//         console.log(popup.message());
-//         await popup.accept();
-//     });
-//     await page.getByText('Confirmation Alert').click();
-//     const result= await page.textContent('#demo');
-//     console.log(result);
-// });
-
-// // Non confirmation alerttest
- 
-// test(' Non Confirmation Alert Test', async ({page}) => {
-//     await page.goto(url);
-//     page.on('dialog', async (popup) => {
-//         console.log(popup.message());
-//         await popup.dismiss();
-//     });
-//     await page.getByText('Confirmation Alert').click();
-//     const result= await page.textContent('#demo');
-//     console.log(result);
-// });
-
-// // prompt Alert Test
-
-// test(' Prompt Alert Test', async ({page}) => {
-//     await page.goto(url);
-//     page.on('dialog', async (popup) => {
-//         console.log(popup.message());
-//         await popup.accept('Playwright');
-//     });
-//     await page.getByText('Prompt Alert').click();
-//     const result= await page.textContent('#demo');
-//     console.log(result);
-// });
-
-// // negative prompt Alert Test
-
-// test(' Negative Prompt Alert Test', async ({page}) => {
-//     await page.goto(url);
-//     page.on('dialog', async (popup) => {
-//         console.log(popup.message());
-//         await popup.dismiss();
-//     });
-//     await page.getByText('Prompt Alert').click();
-//     const result= await page.textContent('#demo');
-//     console.log(result);
-// });
-
-// // Window popup Test
-
-// test(' Window popup Test', async ({page}) => {
-//     await page.goto(url);
-//     await page.getByText('New Tab').click();
-//     const [newPage] = await Promise.all([
-//         page.context().waitForEvent('page'),
-        
-//     ]);
-//     await newPage.waitForLoadState();
-//     console.log(newPage.url());
-//     await expect(newPage).toHaveURL('https://www.pavantestingtools.com/');
-//     const result= await newPage.locator('h1.title').textContent();
-//     console.log(result);
-//     newPage.close();
-// });
-
-// // popup windows
-// test('popup windows', async ({page}) => {
-//     await page.goto(url);
-//     const [newPage] = await Promise.all([
-//         page.context().waitForEvent('page'),
-//         page.getByText('Popup Windows').click()
-//     ]);
-//     const prl=newPage.url();
-//     expect(prl).toMatch(/playwright\.dev|selenium\.dev/);
-//     await newPage.waitForLoadState('networkidle');
-
-//     console.log(newPage.url());
-    
-    
-//     newPage.close();
-// });
-
 
 // //  Labels & Links Test----------------------------------------------------------------
 
