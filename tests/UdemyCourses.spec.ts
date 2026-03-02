@@ -96,6 +96,15 @@ test('Course21', async ({page}) => {
     await Course.FullCourseCheck('☕ TestNG Framework');
 });
 
+test('HomeLink Test', async ({page}) => {
+    await Course.LinksClickOnPage('#blog-pager','Home');
+});
+
+test('CommentsAtomLink Test', async ({page}) => {
+    await Course.LinksClickOnPage('.blog-feeds','Comments (Atom)');
+});
+
+
 test('Heading Test', async ({page}) => {
     await page.goto(url);
 

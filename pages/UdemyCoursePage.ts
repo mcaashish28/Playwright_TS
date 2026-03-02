@@ -23,5 +23,14 @@ await this.ImagePixelTest(img);
 }
 
 
+async LinksClickOnPage(loc:string,text:string){
+const loca=await this.getConstantCard(loc,'link',text);
+await this.ClickandHandleNewPage(loca);
+}
+
+async LinksClicksAnotherTab(loc:string,text:string){
+const loca=await this.getConstantCard(loc,'link',text);
+await this.ClickandHandleNewTab(loca)
+}
 
 }

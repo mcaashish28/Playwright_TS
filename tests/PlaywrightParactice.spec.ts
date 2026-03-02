@@ -1,4 +1,4 @@
-import{test,expect,Page, Locator} from '@playwright/test';
+import{test} from '@playwright/test';
 import { PlaywrightPracticePage } from '../pages/PlaywrightPracticePage';
 const url='https://testautomationpractice.blogspot.com/p/playwrightpractice.html#';
 
