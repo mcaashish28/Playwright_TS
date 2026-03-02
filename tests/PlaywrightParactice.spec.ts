@@ -44,7 +44,7 @@ await practice.BrokenError('#broken-links','Errorcode 503');
 });
 
 test('AppleLink Test',async ({page}) => { 
-await practice.LaptopLinks('#laptops','Apple');
+await practice.BrokenError('#laptops','Apple');
 });
 
 test('LenovoLink Test',async ({page}) => { 
@@ -68,7 +68,7 @@ await practice.BrokenError('#PageList1','Download Files');
 });
 
 test('MerryMoon Link Test',async ({page}) => { 
-await practice.BrokenError('#Attribution1','merrymoonmary')
+await practice.BrokenError('#Attribution1','merrymoonmary');
 });
 
 test('Blogger Link Test',async ({page}) => { 
@@ -124,11 +124,11 @@ await practice.NewWindow('Popup Windows');
 });
 
 test('Label Inputing Gmail test', async ({ page }) => {
-await practice.labelInputtingTest('Email Address:','akarshitmahajan1094')
+await practice.labelInputtingTest('Email Address:','akarshitmahajan1094');
 });
 
 test('Label Inputing Password test', async ({ page }) => {
-await practice.labelInputtingTest(' Password: ','1234578')
+await practice.labelInputtingTest(' Password: ','1234578');
 });
 
 test('Label Express Shipping CheckMethod Test', async ({ page }) => {
@@ -140,23 +140,23 @@ await practice.CheckingShippingMethod( ' Standard');
 });
 
 test('Label Inputing Age test', async ({ page }) => {
-await practice.labelInputtingTest('Your Age:','1234')
+await practice.labelInputtingTest('Your Age:','1234');
 });
 
 test('Place Inputing Name test', async ({ page }) => {
-await practice.PlaceInputtingTest('Enter your full name','Akarshit')
+await practice.PlaceInputtingTest('Enter your full name','Akarshit');
 });
 
 test('Place Inputing PhoneNumber test', async ({ page }) => {
-await practice.PlaceInputtingTest('Phone number (xxx-xxx-xxxx)','6280327973')
+await practice.PlaceInputtingTest('Phone number (xxx-xxx-xxxx)','6280327973');
 });
 
 test('Place Inputing Message test', async ({ page }) => {
-await practice.PlaceInputtingTest('Type your message here...','I Am Good Coder,Agreed?')
+await practice.PlaceInputtingTest('Type your message here...','I Am Good Coder,Agreed?');
 });
 
 test('Place Search test', async ({ page }) => {
-await practice.PlaceInputtingTest('Search products...','Laptop')
+await practice.PlaceInputtingTest('Search products...','Laptop');
 });
 
 test('Place Button test', async ({ page }) => {
@@ -164,181 +164,93 @@ await practice.PlaceButttonTest('Search');
 });
 
 test('TestID Button test', async ({ page }) => {
-await practice.Test_IDVisiblityTest('edit-profile-btn')
+await practice.Test_IDVisiblityTest('edit-profile-btn');
 });
 
 test('TestID Name test', async ({ page }) => {
-await practice.Test_IDVisiblityTest('profile-name')
+await practice.Test_IDVisiblityTest('profile-name');
 });
 
 test('TestID Gamil test', async ({ page }) => {
-await practice.Test_IDVisiblityTest('profile-email')
+await practice.Test_IDVisiblityTest('profile-email');
 });
 
 test('TestID ProductA test', async ({ page }) => {
-  await practice.Test_IdLocatorVisibleTest('product-name','product-price')
+await practice.Test_IdLocatorVisibleTest('product-name','product-price');
 });
 
-// test('ALT ImageVisibility test', async ({ page }) => {
-// await page.goto(url);
-// const image = await SingleTargetLoc(page,'logo image','Alt');
-// await image.isVisible();
-// });
+test('ALT ImageVisibility test', async ({ page }) => {
+  await practice.AltImageIsVisible('logo image');
+});
 
-// test('ALT ImageSource test', async ({ page }) => {
-// await page.goto(url);
-// const image = await SingleTargetLoc(page,'logo image','Alt');
-// const src=await image.getAttribute('src');
-// console.log(src);
-// });
+test('ALT ImageSourceLoad test', async ({ page }) => {
+await practice.AltImageLoadStatus('logo image');
+});
 
-// test('ALT ImageSize test', async ({ page }) => {
-// await page.goto(url);
-// const image = await SingleTargetLoc(page,'logo image','Alt');
-// const box = await image.boundingBox();
-// console.log(box?.width, box?.height);
-// });
+test('ALT ImagePixel test', async ({ page }) => {
+await practice.AltImagePixelTest('logo image');
+});
 
-// test('ALT ImageNotBroken test', async ({ page }) => {
-// await page.goto(url);
-// const image = await SingleTargetLoc(page,'logo image','Alt');
-// const src=await image.getAttribute('src');
-// const response=await page.request.get(src!)
-// expect(response.status()).toBe(200);
-// });
-
-// test('ALT ImageHover test', async ({ page }) => {
-// await page.goto(url);
-// const image = await SingleTargetLoc(page,'logo image','Alt');
-// await image.hover();
-// });
-
-// test('Role ToggleButton test', async ({ page }) => {
-// await page.goto(url);
-// const button1=await DoubleTargetLoc(page,'button','Toggle Button');
-// await button1.isVisible();
-// await button1.click();
-// });
-
-// test('Role PrimaryActionButton test', async ({ page }) => {
-// await page.goto(url);
-// const button=await DoubleTargetLoc(page,'button','Primary Action');
-// await button.isVisible();
-// await button.click();
-// });
-
-// test("Role Navigation test", async ({ page }) => {
-// await page.goto(url);
-// const button2=await DoubleTargetLoc(page,'heading','Navigation');
-// await expect(button2).toBeVisible();
-// });
-
-// test("Role UsernameFilling Test ", async ({ page }) => {
-// await page.goto(url);
-// const button2=await DoubleTargetLoc(page,'textbox','Username:');
-// await inputvalues(button2,'Akarshit');
-// await expect(button2).toBeVisible();
-// });
-
-// test('Text Important test', async ({ page }) => { 
-// await page.goto(url);
-// const word=await SingleTargetLoc(page,'important','Text');
-// await word.isVisible();
-// });  
-
-// test('Text Button test', async ({ page }) => {
-// await page.goto(url);
-// const button=await SingleTargetLoc(page,'Submit Form','Text');
-// await button.isVisible();
-// await button.click();
-// });
-
-// test('Title HTML test', async ({ page }) => {
-// await page.goto(url);
-// const mark=await SingleTargetLoc(page,'HyperText Markup Language','Title');
-// await mark.isVisible();
-// console.log(await mark.innerText());
-// });
-
-// test('Title 3 test', async ({ page }) => {
-// await page.goto(url);
-// const mark=await SingleTargetLoc(page,'Tooltip text','Title');
-// await mark.isVisible();
-// console.log(await mark.innerText());
-// });
-
-// test('Title Button test', async ({ page }) => {
-// await page.goto(url);
-// const mark=await SingleTargetLoc(page,'Click to save your changes','Title');
-// await mark.isVisible();
-// console.log(await mark.innerText());
-// });
-
-// //  Drag and Drop Test----------------------------------------------------------------
-
-// test('Drag and Drop Test', async ({page}) => {
-//     await page.goto(url);
-//     // css using 
-//     const source=page.locator('#draggable');
-//     const target=page.locator('#droppable');
-//     await source.dragTo(target);
-//     await page.waitForTimeout(4000);
-// });
+test('ALT ImageNotBroken test', async ({ page }) => {
+await practice.AltImageSizeStatus('logo image');
+});
 
 
-// // Mouse Hover Test----------------------------------------------------------------
+test('Role ToggleButton test', async ({ page }) => {
+await practice.RoleToogleButton('Toggle Button');
+});
 
-// test('Mouse Hover Test', async ({page}) => {
-//     await page.goto(url);
-//     await page.getByText('Point Me').hover();
-//     await page.waitForTimeout(4000);
-//     await page.getByRole('link', { name: 'Mobiles' }).click();
-//     await expect(page).toHaveURL(url);
-//     // second laptop test
-//     await page.getByText('Point Me').hover();
-//     await page.waitForTimeout(4000);
-//     await page.getByRole('link', { name: 'Laptops' }).click();
-//     await expect(page).toHaveURL(url);
-// });
+test('Role PrimaryActionButton test', async ({ page }) => {
+await practice.RoleToogleButton('Primary Action');
+});
 
-// //  Labels & Links Test----------------------------------------------------------------
-
-// test('Labels & Links Test', async ({page}) => {
-//     await page.goto(url);
-//     page.getByText('Mobile Labels');
-//     await page.getByText('Samsung');
-//     await page.getByText('Motorola');
-//     await page.getByText('Real me');    
-        
-// });
-
-// test('Home Link Test2', async ({page}) => {
-//     await page.goto(url);
-//     await page.locator('a.home-link').click();
-//       await page.context().newPage();
-//     console.log(page.url());
-//     await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/');
-
-//     const result=await page.locator('h1').textContent();
-//     console.log(result);
-//     page.close();
-
-        
-// });
+test('Role AcceptTerms test', async ({ page }) => {
+await practice.RoleCheckingButton(' Accept terms ');
+});
 
 
-// // Back to top Test
+test("Role UsernameFilling Test ", async ({ page }) => {
+await practice.RoleFillingValues('Username:','Akarshit');
+});
 
 
-// test('Back to top test', async ({page}) => {
-//     await page.goto(url);
-//     await page.getByTitle('Back to top').click();
-//     console.log(page.url());
-//     await expect(page).toHaveURL('https://testautomationpractice.blogspot.com/p/playwrightpractice.html#');
+test('Text Important test', async ({ page }) => { 
+await practice.TextVisibilityTest('important');
+});  
 
-//     const para=page.getByText('This page demonstrates various Playwright locators for testing purposes.',{exact:true});
-//     await expect(para).toBeVisible();
-//     page.close();
+test('Text Button test', async ({ page }) => {
+await practice.TextButton('Submit Form')
+});
 
-        
-// });
+
+test('Title HTML test', async ({ page }) => {
+await practice.TitleVisible('HyperText Markup Language');
+});
+
+test('Title 3 test', async ({ page }) => {
+await practice.TitleVisible('Tooltip text');
+});
+
+test('Title Button test', async ({ page }) => {
+await practice.TitleButtonClick('Click to save your changes');
+});
+
+test('Title Back to top test', async ({page}) => {
+await practice.TitleWorkingButtonClick('Back to top');
+});
+
+test('Drag and Drop Test', async ({page}) => {
+await practice.DragANDDrop('#draggable','#droppable'); 
+});
+
+test('MouseHover Mobile Test', async ({page}) => {
+await practice.MOUSEHOVER('Point Me','Mobiles'); 
+});
+
+test('MouseHover Laptop Test', async ({page}) => {
+await practice.MOUSEHOVER('Point Me','Laptops'); 
+});
+
+test('Text Labels test', async ({ page }) => { 
+await practice.TextVisibilityTest('Samsung');
+}); 
