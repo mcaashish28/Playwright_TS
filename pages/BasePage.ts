@@ -13,8 +13,18 @@ export class BasePage {
   await btn.check();
 }
 
+ async ClickingMethod(btn:Locator){
+  await btn.isVisible();
+  await btn.click();
+}
+
+
  async InputValue(btn:Locator,text:string){
   await btn.fill(text);
+ }
+
+ async LocatorClick(text:string):Promise<Locator>{
+ return this.page.locator(text);
  }
 
 async Roleclick(role:string,name:string):Promise<Locator>{
@@ -37,6 +47,13 @@ async TestIdclick(text:string):Promise<Locator>{
   return this.page.getByTestId(text);
 }
 
+async ALTclick(text:string):Promise<Locator>{
+  return this.page.getByAltText(text);
+}
+
+async TITLEclick(text:string):Promise<Locator>{
+  return this.page.getByTitle(text);
+}
 
 async getConstantCard(locclass:string,type:string,coursename:string):Promise<Locator>{
 const card = this.page.locator(`${locclass}`).filter({
@@ -48,7 +65,6 @@ return card;
 async TakeConstantcard(btn:Locator,want:string):Promise<Locator>{
 return btn.locator(want);
 }
-
 
 async ClickandHandleNewTab(btn1:Locator){
 const[newPage]=await Promise.all([
